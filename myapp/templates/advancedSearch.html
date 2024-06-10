@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center">Advanced Search</h1>
+      <br />
+      {% if message %}
+      <p style="color: red">{{ message }}</p>
+      {% endif %}
+
+      <!-- This displays the form fields from the filter we created in the views.py file -->
+      <form
+        method="GET"
+        action="{% url 'advancedSearchResult' %}"
+        class="form"
+        style="padding: 2%"
+      >
+        {% csrf_token %} {% for field in myFilter.form %}
+        <div class="form-group row">
+          <strong
+            ><label
+              for="{{ field.id_for_label }}"
+              class="col-sm-3 col-form-label"
+              >{{ field.label }}</label
+            ></strong
+          >
+          <div class="col-sm-9">{{ field }}</div>
+        </div>
+        {% endfor %}
+        <div class="form-group row">
+          <div class="col-sm-3 col-form-label">
+            <button type="submit" class="btn btn-success fw-5">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

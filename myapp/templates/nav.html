@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg bg-success mt">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="{% url 'home' %}">Whitman Trees</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon text-white"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li>
+          <a
+            class="btn btn-success dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            data-bs-target="searchMenu"
+          >
+            search
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#">
+              <form method="GET" action="{% url 'advancedSearchResult' %}" class="form" style="padding: 2%;">
+                {% csrf_token %}
+                {% for field in myFilter.form %}
+                  <div class="form-group row">
+                    <strong><label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label">{{ field.label }}</label></strong>
+                    <div class="col-sm-9">
+                      {{ field }}
+                    </div>
+                  </div>
+                {% endfor %}
+                <div class="form-group row">
+                  <div class="col-sm-3 col-form-label">
+                    <button type="submit" class="btn btn-success">Search</button>
+                  </div>
+                </div>
+              </form></a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'randomSearchResult' %}">Search Random Tree</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

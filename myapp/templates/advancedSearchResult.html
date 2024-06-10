@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+    /* Style adjustments for consistency and alignment */
+        .search-bar-container {
+            text-align: left;
+        /* Aligns the search form to the left */
+            margin-bottom: 20px;
+        /* Provides space between the search bar and the results */
+        }
+
+        .img-container img {
+            display: block;
+        /* Makes img a block element to apply auto margins */
+            margin: 0 auto;
+        /* Centers the image */
+            width: 100%;
+        /* Ensures the image is responsive and fits its container */
+            height: auto;
+        /* Maintains aspect ratio */
+        }
+
+        .comment-section {
+            background-color: #f8f9fa;
+        /* Light background for the comment section */
+            border-radius: 5px;
+        /* Rounded corners for the comment boxes */
+            margin-top: 20px;
+        /* Space between the tree details and the comment section */
+            padding: 15px;
+        /* Padding inside the comment sections */
+        }
+    </style>
+
+    <div class="container-fluid" style="background-color: darkolivegreen; padding-top: 1%;">
+        <div class="px-lg-5">
+            <div class="row">
+                {% if searchResult %}
+                    {% for result in searchResult %}
+                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                            <div class="bg-white rounded shadow-sm">
+                                <div class="img-container">
+                                    <img src="https://i.pinimg.com/originals/de/37/bc/de37bc053591009ac708dd70a0a96687.jpg" alt="Tree Image">
+                                </div>
+                                <div class="p-4">
+                                    <strong>Tree ID:</strong> {{ result.tree_id }} <br>
+                                    <strong>Species Name:</strong> {{ result.species_name }} <br>
+                                    <strong>Common Name:</strong> {{ result.common_name }} <br>
+                                    <strong>Family Name:</strong> {{ result.family_name }} <br>
+                                    <strong>Leaf Fall:</strong> {{ result.leaf_fall }} <br>
+                                    <strong>Longitude:</strong> {{ result.longitude }} <br>
+                                    <strong>Latitude:</strong> {{ result.latitude }} <br>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary m-2">
+                                        <a href="{% url 'post_comment' result.tree_id %}" class="text-white fs-5 text-decoration-none" >Comments</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+            <div class="py-5 text-center"><a href="#" class="btn btn-dark px-5 py-3 text-uppercase">Top</a></div>
+        </div>
+    </div>
+
+{% endblock %}

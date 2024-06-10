@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container bg-light p-3 mt-4 rounded-4 ">
+        <strong>Tree ID:</strong> {{ tree.tree_id }} <br>
+        <strong>Species Name:</strong> {{ tree.species_name }} <br>
+        <strong>Common Name:</strong> {{ tree.common_name }} <br>
+        <strong>Family Name:</strong> {{ tree.family_name }} <br>
+        <strong>Leaf Fall:</strong> {{ tree.leaf_fall }} <br>
+        <strong>Longitude:</strong> {{ tree.longitude }} <br>
+        <strong>Latitude:</strong> {{ tree.latitude }} <br>
+        <div class="d-flex justify-content-center">
+        </div>
+    </div>
+
+    <div class="container text-center bg-secondary p-4 mt-4 rounded-3">
+        <h2>Comments</h2>
+        <p class="fs-7 alert alert-warning" role="alert">Comments will be moderated before showing on the website.</p>
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="bg-light p-2 rounded-3 mt-4 fs-6">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 fw-bold"> {{ comment.name }} <span class="mx-3 fw-light">{{ comment.created }}</span>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-md-12 col-sm-12 text-start" >
+                            {{ comment.content | safe }}
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        {% else %}
+            <p class="text-danger fs-4 fw-bold">Be the first to commenter!</p>
+        {% endif %}
+    </div>
+
+    <div class="container d-flex justify-content-center mt-5 mb-4 p-2 bg-light rounded-4">
+        {% include 'comment_form.html' %}
+    </div>
+
+{% endblock %}

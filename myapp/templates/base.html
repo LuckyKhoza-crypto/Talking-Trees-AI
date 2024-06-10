@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+    <style>
+        #chatbox-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 1000px;
+            max-width: 1000px;
+            z-index: 11;
+            overflow-y: auto; /* Keeps the container scrollable */
+        }
+        #chatbox-container .btn {
+            width: 100%; /* Makes the toggle button as wide as the container */
+        }
+        #chatbox-container p {
+            word-wrap: break-word; /* Ensures long words can break and wrap onto the next line */
+            white-space: normal; /* Ensures the white space is handled in a way that allows wrapping */
+            overflow-wrap: break-word; /* Alternative to word-wrap, with similar functionality */
+        }
+        #message-container * {
+            word-wrap: break-word; /* Ensures words can break and wrap */
+            overflow-wrap: break-word; /* Handles breaking of long words for wrapping */
+            white-space: pre-wrap; /* Allows white spaces and line breaks */
+            max-width: 100%; /* Ensures the container doesn't exceed its parent's width */
+        }
+    </style>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <title>Whitman Trees</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head>
+    <body>
+        {% include "nav.html" %}
+
+        {% block content %}
+            {% load static %}
+        <!-- this will pull everything from each page and place it here. -->
+        {% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="static/script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var messageContainer = $('#message-container');
+                var csrftoken = $('[name="csrf-token"]').attr('content');
+
+                function sendMessage() {
+                    var question = $('#message-input').val();
+                    var message = $("<p>").text(question);
+                    messageContainer.append(message);
+
+                    var thinking = $("<pre>").text("Thinking...");
+                    messageContainer.append(thinking);
+
+                    $.ajax({
+                        url: '/response',
+                        type: 'POST',
+                        data: {
+                            'user_input': question
+                        },
+                        headers: { "X-CSRFToken": csrftoken },
+                        success: function(response) {
+                            thinking.text(response); // Update 'Thinking...' with response
+                        },
+                        error: function(error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                    $('#message-input').val(''); // Clear the input field
+                }
+
+                $('#send-button').click(function() {
+                    sendMessage();
+                });
+
+                $('#message-input').keypress(function(event) {
+                    if (event.which == 13) {
+                        event.preventDefault(); // Prevent form submission or any default action
+                        sendMessage();
+                    }
+                });
+            });
+        </script>
+
+
+        <div id="chatbox-container" class="position-fixed bottom-0 end-0 p-3">
+      <!-- Button to toggle the chatbox -->
+            <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#chatboxContent" aria-expanded="false" aria-controls="chatboxContent">
+                Chat with the trees!
+            </button>
+
+      <!-- Collapsible Chatbox Content -->
+            <div class="collapse" id="chatboxContent" style="">
+                <div class="card-body" style="height: 500px; overflow-y: auto;background-color: #4ac466;">
+                    <p class="text-muted" id="message-container">Messages will appear here...</p>
+                </div>
+                <div class="card-footer">
+                    <input type="text" id="message-input" class="form-control" placeholder="Type your message here...">
+                    <button id="send-button" class="btn btn-primary mt-2">Send</button>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

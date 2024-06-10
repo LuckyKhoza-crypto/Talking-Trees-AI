@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container-fluid" style="background-color: darkolivegreen; padding-top: 1%;">
+        <div class="px-lg-5">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <h1 class="text-center text-white">Random Search Results</h1>
+                    <br />
+                    <div class="col-xl-6 col-lg-8 col-md-10 mb-4  ">
+                        <div class=" bg-white rounded shadow-sm">
+                            <div>
+                                <img src="https://i.pinimg.com/originals/de/37/bc/de37bc053591009ac708dd70a0a96687.jpg"
+                                     style="width: 100%; height: auto;" alt="Tree Image" class="container-fluid ">
+                            </div>
+                            <div class="p-4">
+                                <strong>Tree ID:</strong> {{ searchResult.tree_id }} <br>
+                                <strong>Common Name:</strong> {{ searchResult.common_name }} <br>
+                                <strong>Species Name:</strong> {{ searchResult.species_name }} <br>
+                                <strong>Family Name:</strong> {{ searchResult.family_name }} <br>
+                                <strong>Group Name:</strong> {{ searchResult.group_name }} <br>
+                                <strong>Leaf Fall:</strong> {{ searchResult.leaf_fall }} <br>
+                                <strong>Longitude:</strong> {{ searchResult.longitude }} <br>
+                                <strong>Latitude:</strong> {{ searchResult.latitude }} <br>
+                                <strong>Tree Age:</strong> {{ searchResult.age_class }} <br>
+                                <strong>Location(if it's a trust property):</strong> {{ searchResult.trust_prop_address }}
+                                <br>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary m-2">
+                                    <a href="{% url 'post_comment' searchResult.tree_id %}" class="text-white fs-5 text-decoration-none" >Comments</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-5 text-right"><a href="#" class="btn btn-dark px-5 py-3 text-uppercase">Top</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

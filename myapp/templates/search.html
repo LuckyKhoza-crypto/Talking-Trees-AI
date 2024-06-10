@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+  <div class="container">
+    <h1>Search using Tree ID</h1>
+
+    {% if message %}
+      <p style="color: red">{{ message }}</p>
+    {% endif %}
+  </div>
+
+  <div class="container">
+    <strong>
+      <form method="GET" action="{% url 'search' %}">
+        {% csrf_token %} {{ form }}
+        <button type="submit" class="btn btn-success">Search</button>
+      </strong>
+    </div>
+{% endblock %}

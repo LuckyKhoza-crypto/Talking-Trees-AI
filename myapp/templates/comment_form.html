@@ -1,0 +1,15 @@
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-6" >
+        <h2>Add a Comment</h2>
+        <form method="post" action="{% url 'post_comment' tree.tree_id %}">
+            {% csrf_token %}
+            {{ form | crispy }}
+
+            <button class="btn btn-primary">
+                Add Comment
+            </button>
+        </form>
+    </div>
+{% endblock %}
